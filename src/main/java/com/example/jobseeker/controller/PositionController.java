@@ -1,6 +1,7 @@
 package com.example.jobseeker.controller;
 
 import com.example.jobseeker.dto.PositionRequestDto;
+import com.example.jobseeker.dto.PositionResponseDto;
 import com.example.jobseeker.service.ClientService;
 import com.example.jobseeker.service.PositionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,5 +27,12 @@ public class PositionController {
         clientService.validateApiKey(positionRequestDto.getApiKey());
         String url = positionService.createPosition(positionRequestDto);
         return new ResponseEntity<>(url, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/positions/{id}")
+    public ResponseEntity<PositionResponseDto> getPositionById(@RequestBody PositionRequestDto positionRequestDto, @PathVariable Long id) {
+        clientService.validateApiKey(positionRequestDto.getApiKey());
+        PositionResponseDto positionDto = positionService.getPositionById(id);
+        return new ResponseEntity<>(positionDto, HttpStatus.OK);
     }
 }
