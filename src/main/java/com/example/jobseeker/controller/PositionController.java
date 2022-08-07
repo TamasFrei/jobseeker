@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1")
 public class PositionController {
@@ -34,5 +36,14 @@ public class PositionController {
         clientService.validateApiKey(positionRequestDto.getApiKey());
         PositionResponseDto positionDto = positionService.getPositionById(id);
         return new ResponseEntity<>(positionDto, HttpStatus.OK);
+    }
+
+    @GetMapping("/positions")
+    public ResponseEntity<List<PositionResponseDto>> searchPosition(@RequestBody PositionRequestDto positionRequestDto,
+                                                                    @RequestParam String keyword,
+                                                                    @RequestParam String location) {
+        clientService.validateApiKey(positionRequestDto.getApiKey());
+        List<PositionResponseDto> positions = positionService.searchPosition(keyword, location);
+        return new ResponseEntity<>(positions, HttpStatus.OK);
     }
 }

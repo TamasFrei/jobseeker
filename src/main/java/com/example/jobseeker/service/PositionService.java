@@ -9,7 +9,9 @@ import com.example.jobseeker.validator.PositionValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PositionService {
@@ -37,5 +39,12 @@ public class PositionService {
             return new PositionResponseDto(optionalPosition.get());
         }
         throw new ResourceNotFoundException("Position", "id", id);
+    }
+
+    public List<PositionResponseDto> searchPosition(String keyword, String location) {
+        List<Position> positions = positionRepository.findByLocationContainingAndJobTitleContaining(location, keyword);
+        return positions.stream()
+                .map(PositionResponseDto::new)
+                .collect(Collectors.toList());
     }
 }
