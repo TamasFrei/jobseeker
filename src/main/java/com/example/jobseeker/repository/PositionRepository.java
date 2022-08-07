@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface PositionRepository extends JpaRepository<Position, Long> {
 
-    List<Position> findByLocationContainingAndJobTitleContaining(String location, String jobTitle);
+    List<Position> findByLocationContainingIgnoreCaseAndJobTitleContainingIgnoreCase(String location, String jobTitle);
 }

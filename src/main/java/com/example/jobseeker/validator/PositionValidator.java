@@ -23,6 +23,14 @@ public final class PositionValidator {
         }
     }
 
+    public void validatePosition(String keyword, String location) {
+        validateStringProperty(keyword, "job title");
+        validateStringProperty(location, "location");
+        if (!errorMessages.isEmpty()) {
+            throw new InvalidPositionException(errorMessages);
+        }
+    }
+
     private void validateStringProperty(String stringProperty, String propName) {
         if (StringUtils.isEmpty(stringProperty)) {
             errorMessages.add(String.format("The position's %s is missing.", propName));
